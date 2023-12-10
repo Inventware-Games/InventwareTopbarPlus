@@ -20,6 +20,7 @@ topbarContainer.ZIndex = 1
 topbarContainer.Parent = topbarPlusGui
 topbarContainer.Active = false
 
+-- HACK! get rid of this template
 local iconContainer = Instance.new("Frame")
 iconContainer.BackgroundTransparency = 1
 iconContainer.Name = "IconContainer"

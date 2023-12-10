@@ -1,5 +1,4 @@
 -- LOCAL
-local LocalizationService = game:GetService("LocalizationService")
 local tweenService = game:GetService("TweenService")
 local debris = game:GetService("Debris")
 local userInputService = game:GetService("UserInputService")
@@ -8,7 +7,6 @@ local runService = game:GetService("RunService")
 local textService = game:GetService("TextService")
 local starterGui = game:GetService("StarterGui")
 local guiService = game:GetService("GuiService")
-local localizationService = game:GetService("LocalizationService")
 local playersService = game:GetService("Players")
 local localPlayer = playersService.LocalPlayer
 local iconModule = script
@@ -32,6 +30,7 @@ local activeItems = TopbarPlusGui.ActiveItems
 local topbarContainer = TopbarPlusGui.TopbarContainer
 local iconTemplate = topbarContainer["IconContainer"]
 local DEFAULT_THEME = Themes.Default
+local DEFAULT_CHROME_THEME = Themes.ChromeDefault
 local THUMB_OFFSET = 55
 local DEFAULT_FORCED_GROUP_VALUES = {}
 
@@ -401,7 +400,7 @@ function Icon.new()
 	self.dropdownOpen = false
 	self.menuOpen = false
 	self.locked = false
-	self.topPadding = UDim.new(0, 4)
+	self.topPadding = IconController.chromeUiEnabled and UDim.new(0, 12) or UDim.new(0, 4)
 	self.targetPosition = nil
 	self.toggleItems = {}
 	self.lockedSettings = {}
@@ -418,7 +417,11 @@ function Icon.new()
 	
 	-- Apply start values
 	self:setName("UnnamedIcon")
-	self:setTheme(DEFAULT_THEME, true)
+	if IconController.chromeUiEnabled then
+		self:setTheme(DEFAULT_CHROME_THEME, true)
+	else
+		self:setTheme(DEFAULT_THEME, true)
+	end
 
 	-- Input handlers
 	-- Calls deselect/select when the icon is clicked

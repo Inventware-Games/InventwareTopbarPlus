@@ -26,7 +26,7 @@ local topbarIcons = {}
 local forceTopbarDisabled = false
 local menuOpen
 local topbarUpdating = false
-local cameraConnection
+local cameraConnection, topbarInsetConnection
 local controllerMenuOverride
 local isStudio = runService:IsStudio()
 local localPlayer = players.LocalPlayer
@@ -59,6 +59,13 @@ local function bindCamera()
 		cameraConnection:Disconnect()
 	end
 	cameraConnection = workspace.CurrentCamera:GetPropertyChangedSignal("ViewportSize"):Connect(IconController.updateTopbar)
+end
+
+local function bindTopbarInset()
+	if topbarInsetConnection and topbarInsetConnection.Connected then
+		topbarInsetConnection:Disconnect()
+	end
+	topbarInsetConnection = guiService:GetPropertyChangedSignal("TopbarInset"):Connect(IconController.resizeTopbarForInsetChange)
 end
 
 -- OFFSET HANDLERS
@@ -132,6 +139,7 @@ IconController.rightGap = 12
 IconController.leftOffset = 0
 IconController.rightOffset = 0
 IconController.voiceChatEnabled = nil
+IconController.chromeUiEnabled = true
 IconController.mimicCoreGui = true
 IconController.healthbarDisabled = false
 IconController.activeButtonBCallbacks = 0
@@ -262,6 +270,16 @@ function IconController.getMenuOffset(icon)
 		end
 	end
 	return extendLeft, extendRight, additionalRight
+end
+
+function IconController.resizeTopbarForInsetChange()
+	-- This should only be used if the new Chrome UI is enabled
+	if not IconController.chromeUiEnabled then return end
+
+	local topBarInset = guiService.TopbarInset
+
+	TopbarPlusGui.TopbarContainer.Position = UDim2.new(0, topBarInset.Min.X, 0, topBarInset.Min.Y)
+	TopbarPlusGui.TopbarContainer.Size = UDim2.new(0, topBarInset.Width, 0, topBarInset.Height)
 end
 
 -- This is responsible for positioning the topbar icons
@@ -1165,6 +1183,10 @@ guiService.MenuOpened:Connect(function()
 end)
 
 bindCamera()
+
+if IconController.chromeUiEnabled then
+	bindTopbarInset()
+end
 
 -- It's important we update all icons when a players language changes to account for changes in the width of text, etc
 task.spawn(function()

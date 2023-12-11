@@ -135,7 +135,7 @@ alignmentDetails["right"] = {
 	--reverseSort = true
 }
 
-
+print(guiService.TopbarInset.Height)
 
 -- PROPERTIES
 IconController.topbarEnabled = true
@@ -147,7 +147,7 @@ IconController.rightGap = 12
 IconController.leftOffset = 0
 IconController.rightOffset = 0
 IconController.voiceChatEnabled = nil
-IconController.chromeUiEnabled = true and guiService.TopbarInset.Height == 58 -- Unreliable way of detecting if user is enrolled into the Chrome UI
+IconController.chromeUiEnabled = true -- and guiService.TopbarInset.Height == 58 -- Unreliable way of detecting if user is enrolled into the Chrome UI
 IconController.mimicCoreGui = true
 IconController.healthbarDisabled = false
 IconController.activeButtonBCallbacks = 0

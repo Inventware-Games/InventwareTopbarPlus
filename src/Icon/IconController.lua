@@ -7,7 +7,6 @@ local userInputService = game:GetService("UserInputService")
 local tweenService = game:GetService("TweenService")
 local players = game:GetService("Players")
 local VRService = game:GetService("VRService")
-local voiceChatService = game:GetService("VoiceChatService")
 local localizationService = game:GetService("LocalizationService")
 local iconModule = script.Parent
 local TopbarPlusReference = require(iconModule.TopbarPlusReference)
